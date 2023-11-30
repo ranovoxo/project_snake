@@ -16,6 +16,7 @@ game_is_on = True
 snake = Snake()
 food = Food()
 score_board = Scoreboard()
+score_board.load_high_score()
 
 screen.listen()
 screen.onkey(snake.up,"Up")
@@ -44,8 +45,8 @@ while game_is_on:
     for segment in snake.segments[1:]:
     
         if snake.head.distance(segment) < 10:
-            game_is_on = False
-            score_board.game()
+            score_board.save_high_score()
+            snake.reset()
     
 
 

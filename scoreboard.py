@@ -11,10 +11,14 @@ class Scoreboard(Turtle):
         self.color("white")
         self.hideturtle()
         self.penup()
+        self.highestscore = 0
+        self.load_high_score()
         self.update_scoreboard()
 
     def update_scoreboard(self):
-        self.write(f"Score: {self.score}", move=False, align=ALIGNMENT, font=FONT)
+        self.clear()
+        self.goto(0, 260)
+        self.write(f"Score: {self.score}   Highscore: {self.highestscore}", move=False, align=ALIGNMENT, font=FONT)
 
     def update_score(self):
         self.score += 1
@@ -28,12 +32,23 @@ class Scoreboard(Turtle):
     def save_high_score(self):
         f = open("highscore.txt", "r")
         highscore = f.readline()
-
         score = int(highscore.split(",")[1])
 
         if self.score > score:
             f = open("highscore.txt", "w")
             f.write(f"highscore,{self.score}")
+            self.highestscore =  self.score
+            self.score = 0
+            self.update_scoreboard()
             f.close()
         else:
             f.close()
+
+
+    def load_high_score(self):
+        f = open("highscore.txt", "r")
+        highscore = f.readline()
+        score = int(highscore.split(",")[1])
+        self.highestscore = score
+
+        f.close()
